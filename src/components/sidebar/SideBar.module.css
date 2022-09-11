@@ -1,0 +1,19 @@
+.sidebar {
+    background: darkslateblue;
+    height: 500px;
+    grid-area: sb;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.item {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+
+.active {
+    color: gold;
+}

@@ -1,0 +1,8 @@
+.area {
+    resize: none;
+    outline: none;
+    border: 1px solid teal;
+    width: 400px;
+    height: 100px;
+    display: flex;
+}
