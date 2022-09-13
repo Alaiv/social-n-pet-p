@@ -22,7 +22,7 @@ function App() {
 
     if(!init) return <div><h1>Загрузка.....</h1></div>
     return (
-        <StatusContext.Provider value={authData.id} auth={authData.isAuth}>
+        <StatusContext.Provider  value={[authData.id, authData.isAuth]}>
             <div className="App">
                 <Header login={authData.login} auth={authData.isAuth}/>
                 <SideBar/>

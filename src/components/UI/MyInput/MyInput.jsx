@@ -8,3 +8,9 @@ const MyInput = (props) => {
 };
 
 export default MyInput;
+
+
+export const customInput = ({error, touched, status, ...props}) => {
+    const style = error && touched || status ? [cl.input, cl.error].join(' ') : cl.input
+    return <input className={style} {...props}/>
+}

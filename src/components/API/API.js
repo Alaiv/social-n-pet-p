@@ -28,23 +28,43 @@ export class APIprovider {
         const response = await instance.put('profile/status', {status: status})
         return response
     }
+
     static async getUserProfile(userId) {
         const response = await instance.get('profile/' + userId)
         return response
     }
+
     static async setFollow(userId) {
         const response = await instance.post('follow/' + userId)
         return response
     }
+
     static async setUnfollow(userId) {
         const response = await instance.delete('follow/' + userId)
         return response
     }
+
     static async loginUser({login, password, rememberMe = false}) {
         const response = await instance.post('auth/login/', {
             email: login,
             password: password,
             rememberMe: rememberMe
+        })
+        return response
+    }
+
+    static async logout() {
+        const response = await instance.delete('auth/login')
+        return response
+    }
+
+    static async uploadPhoto(file) {
+        let formData = new FormData()
+        formData.append('image', file)
+        const response = await instance.put('profile/photo', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         })
         return response
     }

@@ -9,10 +9,23 @@ export const authUser = createAsyncThunk(
     }
 )
 export const loginUser = createAsyncThunk(
-    'auth/isAuth',
-    async (data) => {
-        const response = await APIprovider.loginUser(data)
-        return response.data
+    'auth/login',
+    async (data, thunkAPI) => {
+        const [values, setStatus] = data;
+        const dispatch = thunkAPI.dispatch
+        const response = await APIprovider.loginUser(values)
+        if (response.data.resultCode === 0) {
+            dispatch(authUser())
+        } else {
+            setStatus({error: response.data.messages[0]})
+        }
+
+    }
+)
+export const logoutUser = createAsyncThunk(
+    'auth/logout',
+    async () => {
+        await APIprovider.logout()
     }
 )
 
@@ -25,9 +38,8 @@ const authSlice = createSlice({
     },
     reducers: {},
     extraReducers: {
-
-        [loginUser.fulfilled]: (state, action) => {
-            return () => authUser()
+        [logoutUser.fulfilled]: (state, action) => {
+            return {...state, isAuth: false, id: null, login: ''}
         },
         [authUser.fulfilled]: (state, action) => {
             const info = action.payload.data
