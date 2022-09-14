@@ -68,4 +68,24 @@ export class APIprovider {
         })
         return response
     }
+
+    static async uploadInfo(info) {
+        const response = await instance.put('profile', {
+            lookingForAJob: info.lookingForAJob,
+            lookingForAJobDescription:info.lookingForAJobDescription ,
+            fullName: info.fullName,
+            aboutMe: info.aboutMe,
+            contacts: {
+                github: info.github,
+                vk: info.vk,
+                instagram: info.instagram,
+                facebook: info.facebook,
+                twitter: info.twitter,
+                website: info.website,
+                youtube: info.youtube,
+                mainLink: info.mainLink
+            }
+        })
+        return response.data
+    }
 }

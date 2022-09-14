@@ -1,28 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import cl from './User.module.css'
 import {Link} from "react-router-dom";
-import {APIprovider} from "../../../API/API";
 
-const User = ({photos, name, followed, id, user, updateFollow}) => {
-
-   //  const [userFollow, setUserFollow] = useState(user)
-   // const followUnfollow = () => {
-   //      if(userFollow.followed) {
-   //          setUserFollow({...userFollow, followed: false})
-   //      } else {
-   //          setUserFollow({...userFollow, followed: true})
-   //      }
-   // }
-   //
-   // useEffect(() => {
-   //     if(!userFollow.followed) {
-   //         APIprovider.setUnfollow(id)
-   //     } else {
-   //         APIprovider.setFollow(id)
-   //     }
-   // }, [userFollow])
-
-    let property = followed ? false : true
+const User = ({photos, name, followed, id, user, updateFollow, followId}) => {
+    let property = !followed
     return (
         <div>
             <Link to={`/profile/${id}`}>
@@ -30,7 +11,7 @@ const User = ({photos, name, followed, id, user, updateFollow}) => {
                     || 'https://pixelbox.ru/wp-content/uploads/2021/09/avatar-boys-vk-59.jpg'}/>
             </Link>
             <div>{name}</div>
-            <button onClick={ () => updateFollow(id, property)}>{followed ? 'Unfollow' : 'Follow'}</button>
+            <button disabled={followId.some(uId => uId === id)} onClick={ () => updateFollow(id, property)}>{followed ? 'Unfollow' : 'Follow'}</button>
         </div>
     )
 }

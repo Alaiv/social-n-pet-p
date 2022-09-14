@@ -1,16 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StatusContext} from "../../assets/context/Context";
-import {useParams, useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Profile from "./Profile";
 import {useDispatch, useSelector} from "react-redux";
-import {getProfileInfoThunk, getStatusThunk, setStatusThunk} from "../../redux/profileSlice";
+import {getProfileInfoThunk, getStatusThunk, setStatusThunk, uploadUserInfo} from "../../redux/profileSlice";
+
 
 const ProfileContainer = (props) => {
-    const profileFromRedux = useSelector(state => state.profile)
+    const profileFromRedx = useSelector(state => state.profile)
     const dispatch = useDispatch()
     const [id, auth] = useContext(StatusContext)
     const [editMode, setEditMode] = useState(false)
-    const [text, setText] = useState(profileFromRedux.status)
+    const [text, setText] = useState(profileFromRedx.status)
     const params = useParams()
     const navigate = useNavigate()
     let userId = params.id
@@ -23,6 +24,10 @@ const ProfileContainer = (props) => {
         setEditMode(false)
     }
 
+    const updateInfoOfProfile = (info) => {
+        dispatch(uploadUserInfo(info))
+    }
+
     useEffect(() => {
         if (!userId) return navigate('/login')
         if (userId) {
@@ -32,23 +37,26 @@ const ProfileContainer = (props) => {
     }, [userId])
 
     useEffect(() => {
-        setText(profileFromRedux.status)
-    }, [profileFromRedux.status])
+        setText(profileFromRedx.status)
+    }, [profileFromRedx.status])
 
     return (
         <div>
             <Profile {...props}
-                     isFetching={profileFromRedux.isFetching}
-                     profileData={profileFromRedux.profileInfo}
+                     isFetching={profileFromRedx.isFetching}
+                     profileData={profileFromRedx.profileInfo}
                      editMode={editMode}
                      text={text} setText={setText}
                      statusSetter={statusSetter}
                      setEditMode={setEditMode}
                      guestId={params.id}
+                     updateInfoOfProfile={updateInfoOfProfile}
+                     dispatch={dispatch}
+                     isUpdated={profileFromRedx.isUpdated}
             />
 
         </div>
     );
 };
 
-export default ProfileContainer;
+export default ProfileContainer

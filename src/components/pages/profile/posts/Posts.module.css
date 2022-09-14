@@ -1,26 +1,17 @@
-.postcard {
-    background: white;
-    display: flex;
-    flex-direction: column;
-    max-width: 400px;
-    margin-top: 15px;
-    border-radius: 10px;
-    text-align: center;
-    max-height: 300px;
-}
 
 .list {
     background: white;
     position: relative;
     max-width: 475px;
     min-width: 475px;
-    bottom: 180px;
-    height: 500px;
+    bottom: 285px;
+    min-height: 500px;
+    height: auto;
+    left: 420px;
     border-radius: 10px;
     text-align: center;
-}
-
-.postarea {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: center;
 }

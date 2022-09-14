@@ -38,27 +38,39 @@ export const upPhoto = createAsyncThunk(
     }
 )
 
+export const uploadUserInfo = createAsyncThunk(
+    'profile/uploadInfo',
+    async (info, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const [id, inf, setStatus] = info
+        const data = await APIprovider.uploadInfo(inf)
+        if (data.resultCode === 0) {
+            dispatch(getProfileInfoThunk(id))
+            dispatch(editUpdate())
+        } else {
+            setStatus({error: data.messages[0]})
+        }
+    }
+)
 
 const profileSlice = createSlice({
     name: 'profile',
     initialState: {
         profileInfo: {},
         status: '',
-        isFetching: false
+        isFetching: false,
+        isUpdated: false
     },
     reducers: {
-        setStatus(state, action) {
-            return {...state, status: action.payload}
-        },
-        setProfile(state, action) {
-            return {...state, profileInfo: action.payload}
-        },
         setFetching(state, action) {
             return {...state, isFetching: action.payload}
         },
         updatePhoto(state, action) {
             const file = action.payload
             return {...state, profileInfo: {...state.profileInfo, photos: file}}
+        },
+        editUpdate(state, action) {
+            return {...state, isUpdated: true}
         }
     },
     extraReducers: {
@@ -73,5 +85,5 @@ const profileSlice = createSlice({
         }
     }
 })
-export const {setStatus, setProfile, setFetching, updatePhoto} = profileSlice.actions
+export const {setFetching, updatePhoto, editUpdate} = profileSlice.actions
 export default profileSlice.reducer

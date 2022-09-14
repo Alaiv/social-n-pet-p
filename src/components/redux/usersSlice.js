@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {APIprovider} from "../API/API";
-import {getStatusThunk} from "./profileSlice";
 
 export const getUsersThunk = createAsyncThunk(
     'users/getUsers',
@@ -11,17 +10,15 @@ export const getUsersThunk = createAsyncThunk(
     }
 )
 
-export const unfollowThunk = createAsyncThunk(
-    'users/unfollow',
-    async (id) => {
-       await APIprovider.setUnfollow(id)
-    }
-)
-
-export const followThunk = createAsyncThunk(
-    'users/follow',
-    async (id) => {
-       await APIprovider.setFollow(id)
+export const followUnfollow = createAsyncThunk(
+    'users/followUnfollow',
+    async (data, thunkAPI) => {
+        console.log(data)
+        const dispatch = thunkAPI.dispatch;
+        const [id, type] = data;
+        dispatch(setFollowId([true, id]))
+        await APIprovider[type](id)
+        dispatch(setFollowId([false, id]))
     }
 )
 
@@ -29,11 +26,22 @@ const usersSlice = createSlice({
     name: 'users',
     initialState: {
         users: [],
-        totalCount: null
+        totalCount: null,
+        isFetching: false,
+        followId: []
     },
     reducers: {
         setUsers(state, action) {
             return {...state, users: [...action.payload]}
+        },
+        setFollowId(state, action) {
+            const [isFetch, uid] = action.payload;
+            return {
+                ...state,
+                    followId: isFetch
+                        ? [...state.followId, uid]
+                        : state.followId.filter(id => id !== uid)
+            }
         }
     },
     extraReducers: {
@@ -43,5 +51,5 @@ const usersSlice = createSlice({
     }
 })
 
-export const {setUsers} = usersSlice.actions
+export const {setUsers, setFollowId} = usersSlice.actions
 export default usersSlice.reducer

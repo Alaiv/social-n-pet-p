@@ -48,7 +48,7 @@ const Login = () => {
                             />
                             {errors.password && touched.password && <div style={{color: "red"}}>{errors.password}</div>}
                             <div>Запомнить меня: <input type="checkbox"/></div>
-                            <MyButton  type='submit'>Submit</MyButton>
+                            <MyButton type='submit'>Submit</MyButton>
                         </Form>
                     )
                 }

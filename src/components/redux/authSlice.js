@@ -4,8 +4,12 @@ import {APIprovider} from "../API/API";
 export const authUser = createAsyncThunk(
     'auth/isAuth',
     async () => {
-        const response = await APIprovider.authMe()
-        return response.data
+        try {
+            const response = await APIprovider.authMe()
+            return response.data
+        } catch (e) {
+            console.error(e)
+        }
     }
 )
 export const loginUser = createAsyncThunk(

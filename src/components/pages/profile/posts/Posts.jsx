@@ -8,6 +8,7 @@ import {addPost, deletePost} from "../../../redux/postsSlice";
 
 const Posts = (props) => {
     const [text, setText] = useState('')
+    //зарефакторить селектор в контейнер
     const postsFromRedux = useSelector(state => state.posts)
     const dispatch = useDispatch()
 
@@ -22,32 +23,30 @@ const Posts = (props) => {
     }
 
     return (
-        <div className={cl.postarea}>
-            <div className={cl.postcard}>
-                <h2>Добавьте свой пост</h2>
-                <div>
-                    <MyArea
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                        placeholder='Введите описание поста...'>
-                    </MyArea>
-                </div>
-                <MyButton onClick={() => dispatch(addPost(post))}
-                >
-                    Добавить пост
-                </MyButton>
-            </div>
             <div className={cl.list}>
                 <h3>Список постов</h3>
-                {postsFromRedux.map(post => <PostItem postDeleter={postDeleter}
-                                             id={post.id} key={post.id}
-                                             title='Это пост'
-                                             description={post.text}
-                                             likes={post.likes}
+                {postsFromRedux
+                    .map(post => <PostItem postDeleter={postDeleter}
+                                                      id={post.id} key={post.id}
+                                                      title='Это пост'
+                                                      description={post.text}
+                                                      likes={post.likes}
                 />)
                 }
+                <div>
+                    <div>
+                        <h2>Добавьте свой пост</h2>
+                        <MyArea
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                            placeholder='Введите описание поста...'>
+                        </MyArea>
+                    </div>
+                    <MyButton onClick={() => dispatch(addPost(post))}>
+                        Добавить пост
+                    </MyButton>
+                </div>
             </div>
-        </div>
     );
 }
 

@@ -13,16 +13,23 @@ function App() {
     const authData = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [init, setInit] = useState(false)
+
+    const handleAllUncaughtRejection = (reason) => {
+        alert(reason.reason.message)
+    }
+
     useEffect(() => {
         dispatch(authUser())
             .then(() => {
                 setInit(true)
+                window.addEventListener('unhandledrejection', handleAllUncaughtRejection)
             })
+        return window.removeEventListener('unhandledrejection', handleAllUncaughtRejection)
     }, [authData.isAuth])
 
-    if(!init) return <div><h1>Загрузка.....</h1></div>
+    if (!init) return <div><h1>Загрузка.....</h1></div>
     return (
-        <StatusContext.Provider  value={[authData.id, authData.isAuth]}>
+        <StatusContext.Provider value={[authData.id, authData.isAuth]}>
             <div className="App">
                 <Header login={authData.login} auth={authData.isAuth}/>
                 <SideBar/>

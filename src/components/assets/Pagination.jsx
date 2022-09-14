@@ -7,8 +7,8 @@ const Pagination = ({ totalCount,  setPage}) => {
     const [portion, setPortion] = useState(1)
     const totalPages = useTotalPages(totalCount)
 
-    const firstPage = (portion - 1) * 5 + 1
-    const lastPage = portion * 5
+    const firstPage = (portion - 1) * 15 + 1
+    const lastPage = portion * 15
 
     return (
         <>
