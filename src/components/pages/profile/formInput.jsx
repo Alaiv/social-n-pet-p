@@ -3,11 +3,8 @@ import {Field, Form, Formik} from "formik";
 import {uploadUserInfo} from "../../redux/profileSlice";
 import cl from "./Profile.module.css";
 import MyButton from "../../UI/MyButton";
-import {useContext} from "react";
-import {StatusContext} from "../../assets/context/Context";
 
-const FormInput = ({contactsKeys, profileData, editMode, dispatch, setEditMode, isUpdated, ...props}) => {
-    const [id, auth] = useContext(StatusContext)
+const FormInput = ({contactsKeys, profileData, editMode, dispatch, setEditMode, isUpdated, id, ...props}) => {
     return (
         <div className={cl.info}>
             <Formik initialValues={{

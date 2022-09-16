@@ -44,11 +44,12 @@ export class APIprovider {
         return response
     }
 
-    static async loginUser({login, password, rememberMe = false}) {
+    static async loginUser({login, password, rememberMe = false, captcha = null}) {
         const response = await instance.post('auth/login/', {
             email: login,
             password: password,
-            rememberMe: rememberMe
+            rememberMe: rememberMe,
+            captcha: captcha
         })
         return response
     }
@@ -87,5 +88,10 @@ export class APIprovider {
             }
         })
         return response.data
+    }
+
+    static async getCaptcha() {
+        const response = await instance.get('security/get-captcha-url');
+        return response.data;
     }
 }

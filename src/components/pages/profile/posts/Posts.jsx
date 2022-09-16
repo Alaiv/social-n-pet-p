@@ -1,27 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import cl from './Posts.module.css'
 import MyButton from "../../../UI/MyButton";
 import PostItem from "./PostItem/PostItem";
 import MyArea from "../../../UI/MyArea/MyArea";
-import {useDispatch, useSelector} from "react-redux";
-import {addPost, deletePost} from "../../../redux/postsSlice";
+import {addPost} from "../../../redux/postsSlice";
 
-const Posts = (props) => {
-    const [text, setText] = useState('')
-    //зарефакторить селектор в контейнер
-    const postsFromRedux = useSelector(state => state.posts)
-    const dispatch = useDispatch()
-
-    let post = {
-        id: Math.round(Math.random() * 100),
-        text: text,
-        likes: Math.round(Math.random() * 10)
-    }
-
-    const postDeleter = (id) => {
-        dispatch(deletePost(id))
-    }
-
+const Posts = ({post, postDeleter, postsFromRedux, text, setText, dispatch}) => {
     return (
             <div className={cl.list}>
                 <h3>Список постов</h3>

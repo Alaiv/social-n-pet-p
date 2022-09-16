@@ -13,7 +13,6 @@ export const getUsersThunk = createAsyncThunk(
 export const followUnfollow = createAsyncThunk(
     'users/followUnfollow',
     async (data, thunkAPI) => {
-        console.log(data)
         const dispatch = thunkAPI.dispatch;
         const [id, type] = data;
         dispatch(setFollowId([true, id]))

@@ -20,10 +20,12 @@ export const loginUser = createAsyncThunk(
         const response = await APIprovider.loginUser(values)
         if (response.data.resultCode === 0) {
             dispatch(authUser())
-        } else {
+        } else if (response.data.resultCode !== 0) {
+            if (response.data.resultCode === 10) {
+                dispatch(getCaptchaImage())
+            }
             setStatus({error: response.data.messages[0]})
         }
-
     }
 )
 export const logoutUser = createAsyncThunk(
@@ -33,12 +35,25 @@ export const logoutUser = createAsyncThunk(
     }
 )
 
+export const getCaptchaImage = createAsyncThunk(
+    'auth/captcha',
+    async () => {
+        try {
+            const response = await APIprovider.getCaptcha();
+            return response;
+        } catch (e) {
+            console.error(e)
+        }
+    }
+)
+
 const authSlice = createSlice({
     name: 'users',
     initialState: {
         login: '',
         id: null,
-        isAuth: false
+        isAuth: false,
+        captcha: null
     },
     reducers: {},
     extraReducers: {
@@ -50,6 +65,10 @@ const authSlice = createSlice({
             if (action.payload.resultCode === 0) {
                 return {...state, login: info.login, id: info.id, isAuth: true}
             }
+        },
+        [getCaptchaImage.fulfilled]: (state, action) => {
+            console.log(action)
+            return {...state, captcha: action.payload.url}
         }
     }
 })

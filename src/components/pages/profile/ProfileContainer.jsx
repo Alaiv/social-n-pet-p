@@ -53,6 +53,7 @@ const ProfileContainer = (props) => {
                      updateInfoOfProfile={updateInfoOfProfile}
                      dispatch={dispatch}
                      isUpdated={profileFromRedx.isUpdated}
+                     id={id}
             />
 
         </div>

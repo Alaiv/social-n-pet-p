@@ -11,18 +11,20 @@ const Login = () => {
     const authInfo = useSelector(state => state.auth)
     const dispatch = useDispatch()
     if (authInfo.isAuth) return <Navigate to='/profile'/>
+
     return (
         <div style={{display: "flex", flexDirection: "column", maxWidth: 300}}>
             <h1 style={{textAlign: "left"}}>Логин</h1>
             <Formik
                 initialValues={{
-                login: '',
-                password: '',
-                rememberMe: false
-            }}
+                    login: '',
+                    password: '',
+                    rememberMe: false,
+                    captcha: ''
+                }}
                 onSubmit={(values, submitProps) => {
-                        dispatch(loginUser([values, submitProps.setStatus]))
-                    }}
+                    dispatch(loginUser([values, submitProps.setStatus]))
+                }}
             >
                 {
                     ({errors, touched, isValidating, status}) => (
@@ -49,6 +51,11 @@ const Login = () => {
                             {errors.password && touched.password && <div style={{color: "red"}}>{errors.password}</div>}
                             <div>Запомнить меня: <input type="checkbox"/></div>
                             <MyButton type='submit'>Submit</MyButton>
+                            {authInfo.captcha && <Field name='captcha'
+                                                        placeholder='введите символы'
+                                                        as={customInput}
+                            />}
+                            {authInfo.captcha && <img src={authInfo.captcha}/>}
                         </Form>
                     )
                 }

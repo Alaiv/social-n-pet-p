@@ -1,6 +1,5 @@
-import React, {useMemo} from 'react';
+import React, {useState} from 'react';
 import MyButton from "../UI/MyButton";
-import {useState} from "react";
 import {useTotalPages} from "./hooks/useTotalPages";
 
 const Pagination = ({ totalCount,  setPage}) => {

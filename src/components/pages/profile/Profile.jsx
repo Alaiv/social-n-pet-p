@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import cl from './Profile.module.css'
-import Posts from "./posts/Posts";
 import MyInput from "../../UI/MyInput/MyInput";
 import {upPhoto} from "../../redux/profileSlice";
 import FormInfo from "./formInfo";
 import FormInput from "./formInput";
+import PostsContainer from "./posts/PostsContainer";
 
 const Profile = ({
-                     profileData, editMode, text, setText, isUpdated,
+                     profileData, editMode, text, setText, isUpdated, id,
                      statusSetter, guestId, setEditMode, isFetching, dispatch
                  }) => {
     const [editProfileMode, setEditProfileMode] = useState(false)
@@ -39,7 +39,7 @@ const Profile = ({
                     <img className={cl.ava} src={photo || 'https://www.syl.ru/misc/i/ni/2/2/7/8/1/5/7/i/2278157.jpg'}/>
                 </div>
                 {editProfileMode
-                    ? <FormInput contactsKeys={contactsKeys} editMode={editProfileMode} isUpdated={isUpdated}
+                    ? <FormInput contactsKeys={contactsKeys} editMode={editProfileMode} isUpdated={isUpdated} id={id}
                                  profileData={profileData} dispatch={dispatch} setEditMode={setEditProfileMode}/>
                     : <FormInfo contactsVals={contactsVals} editMode={editProfileMode} guestId={guestId}
                                 profileData={profileData} dispatch={dispatch} setEditMode={setEditProfileMode}/>}
@@ -54,7 +54,7 @@ const Profile = ({
                 </div>
                 {!guestId && <input type="file" onChange={addAva}/>}
             </div>
-            <Posts/>
+            <PostsContainer/>
         </div>
     );
 };
